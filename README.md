@@ -26,5 +26,5 @@ These design matrices can then be used to specify the model in SPM, using the fu
 * generate the appropriate design matrices using the function tsv2DM2.m.
 * Specify and estimate the model using the function [modelSpecEst4SL.m](https://github.com/matanmazor/MetaLabCore/blob/master/Stats/modelSpecEst4SL.m)
 * Run [RSA.mlx](https://github.com/matanmazor/unequalVarianceDiscrimination/blob/main/analysis/runRSA.mlx)
-9. To run the multiple regression analysis on RDMs, run [multipleRegression.mlx]((https://github.com/matanmazor/unequalVarianceDiscrimination/blob/main/analysis/multipleRegression.mlx)
+9. To run the multiple regression analysis on RDMs, run [multipleRegression.mlx](https://github.com/matanmazor/unequalVarianceDiscrimination/blob/main/analysis/multipleRegression.mlx)
 
