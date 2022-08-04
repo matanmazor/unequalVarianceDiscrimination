@@ -1,5 +1,6 @@
 These are voxel-wise beta values from the design matrix used for RSA 
-analyses. 
+analyses, obtained by running the function 
+"extractMultipleMultivariateSignals."
 
 E.g., the file 
 sub-MP02935/rTPJ_bold

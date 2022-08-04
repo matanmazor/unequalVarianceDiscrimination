@@ -1,5 +1,6 @@
 These are the mean beta values from the three Categorical Confidence
-Design Matrices (10-12), per response and confidence. Each file is 
+Design Matrices (10-12), per response and confidence, obtained by
+running the function extractManyROIConfByResp3DMs.m. Each file is 
 data from one ROI.
 'conf_A' stands for confidence in anticlockwise responses (correct
 and incorrect). Each row is one subject (in the order the appear in
