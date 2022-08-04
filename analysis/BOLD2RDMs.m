@@ -1,6 +1,8 @@
 function [] = BOLD2RDMs(project_params,which_subjects,metric)
 % For each ROI, extract a 12x12x35 matrix of RDMs by subjects, using the
 % specified metric and averaged across runs. 
+% any metric that makes pdist2 happy would work here 
+% ('euclidean', 'correlation', 'spearman', etc.) - we used 'euclidean'
 
 base_dir = '..\analyzed\DM2_unsmoothed';
 conditions = {'C_H','C_L','A_H','A_L',...
@@ -20,6 +22,9 @@ for i_ROI = 1:7
     for i_s=which_subjects
 
         subj_id=participants.participant_id{i_s};
+        
+        %these are the same files that are shared in our github repo in
+        %data/ROI_data
         roi=load(fullfile(base_dir,subj_id,'rsa',[ROI,'_bold.mat']));
 
         %start filling in the RDM

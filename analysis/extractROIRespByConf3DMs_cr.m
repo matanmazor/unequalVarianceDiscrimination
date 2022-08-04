@@ -14,11 +14,14 @@ fs = filesep;
 p = project_params;
 
 [conf_C, conf_A, conf_Y, conf_N, conf_T, conf_V] = deal(nan(numel(which_subjects),6));
+subjects = cell(0);
 
 row_number = 1;
 for i_s = which_subjects
     
     fprintf('extracting betas for participant %s\n\n',subj{i_s}.scanid);
+    subjects{end+1}=subj{i_s}.scanid;
+    
     % how many runs?
     exclusion_file = csvread(fullfile(p.data_dir, ...
         ['sub-',subj{i_s}.scanid],'func','exclusion.txt'));
@@ -88,12 +91,12 @@ end
 
 if ~strcmp(ROI_name, 'dontSaveMe')
     save(fullfile(p.stats_dir,'DM10555','group',ROI_name),...
-    'conf_C','conf_A','conf_Y','conf_N', 'conf_T', 'conf_V')
+    'subjects','conf_C','conf_A','conf_Y','conf_N', 'conf_T', 'conf_V')
 
     save(fullfile(p.stats_dir,'DM11555','group',ROI_name),...
-    'conf_C','conf_A','conf_Y','conf_N', 'conf_T', 'conf_V')
+    'subjects','conf_C','conf_A','conf_Y','conf_N', 'conf_T', 'conf_V')
 
     save(fullfile(p.stats_dir,'DM12555','group',ROI_name),...
-    'conf_C','conf_A','conf_Y','conf_N', 'conf_T', 'conf_V')
+    'subjects','conf_C','conf_A','conf_Y','conf_N', 'conf_T', 'conf_V')
 end
 end

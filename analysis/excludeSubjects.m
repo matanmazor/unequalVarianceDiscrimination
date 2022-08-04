@@ -3,10 +3,10 @@
 
 %% 1. LOAD DATA
 % data_struct = loadData();
-load('data_struct.mat')
+load('../data/behavioural.mat')
 remove(data_struct, '35MP03037')
 
-participants = readtable('D:\Documents\projects\inProgress\unequalVarianceDiscrim\data\data\participants.csv');
+participants = readtable('../data/participants.csv');
 subjects = participants.name_initials;
 
 toExclude = ones(length(subjects),6);
@@ -48,7 +48,7 @@ for s = 1:length(subjects)
     % 3. save exclusion files in participant's directory
     subject_id = participants.participant_id(...
         strcmp(strtrim(participants.name_initials),subjects{s}));
-    func_dir = fullfile('D:\Documents\projects\inProgress\unequalVarianceDiscrim\data\pp_data',...
+    func_dir = fullfile('..\data\pp_data',...
         strtrim(subject_id{1}),'func'); 
 
 
