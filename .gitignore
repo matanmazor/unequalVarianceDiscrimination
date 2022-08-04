@@ -1,5 +1,5 @@
 experiment/data/*
 !experiment/data/subjects.mat
 *.asv
+*.nii
 analyzed/*
-data/*
