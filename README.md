@@ -1,11 +1,12 @@
-# Unequal Variance Discrimination vs Detection
+# Re-evaluating frontopolar and temporoparietal contributions to detection and discrimination confidence
 
-Experiment comparing detection and discrimination with unequal variance, following up on an imaging experiment.
-Run at the Wellcome Centre for Human Neuroimaging, UCL
+with Chudi Gong and Steve Fleming
 
 ![Experimental design](docs/figures/designHorizontal.png)
 
 ## Experiment code
+
+Run at the Wellcome Centre for Human Neuroimaging, UCL
 
 To run the experiment:
 
