@@ -3,6 +3,7 @@
 Experiment comparing detection and discrimination with unequal variance, following up on an imaging experiment.
 Run at the Wellcome Centre for Human Neuroimaging, UCL
 
+![Experimental design](docs/figures/designHorizontal.png)
 To run the experiment:
 
 1. Load 'experiment\data\subjects.mat'. This is a dictionary with paricipant identifiers as keys and numeral values. A value of 1 means higher confidence is mapped to bigger circles. A value of 2 means lower confidence is mapped to bigger circles.
