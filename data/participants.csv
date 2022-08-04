@@ -1,7 +1,7 @@
 participant_id,sex,age,confidence_mapping,hand_laterality,name_initials,included
-sub-MP02934,M,23,1,R,01LeEm,0
-sub-MP02935,F,27,1,R,02DiSt,1
-sub-MP02936,F,23,1,R,03ElEm,1
+sub-MP02934,M,23,1,R,01MP02934,0
+sub-MP02935,F,27,1,R,02MP02935,1
+sub-MP02936,F,23,1,R,03MP02936,1
 sub-MP02937,M,22,2,R,04MP02937,1
 sub-MP02938,M,24,1,R,05MP02938,0
 sub-MP02939,M,30,1,R,06MP02939,1
