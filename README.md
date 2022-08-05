@@ -1,6 +1,6 @@
 # Re-evaluating frontopolar and temporoparietal contributions to detection and discrimination confidence
 
-with Chudi Gong and Steve Fleming
+with Chudi Gong 🧠 and Steve Fleming 🧠
 
 ![Experimental design](docs/figures/designHorizontal.png)
 
