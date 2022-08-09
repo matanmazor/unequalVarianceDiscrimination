@@ -3,10 +3,10 @@
 
 %% 1. LOAD DATA
 % data_struct = loadData();
-load('../data/behavioural.mat')
+load(fullfile('..','data','behavioural.mat'));
 remove(data_struct, '35MP03037')
 
-participants = readtable('../data/participants.csv');
+participants = readtable(fullfile('..','data','participants.csv'));
 subjects = participants.name_initials;
 
 toExclude = ones(length(subjects),6);
@@ -48,8 +48,12 @@ for s = 1:length(subjects)
     % 3. save exclusion files in participant's directory
     subject_id = participants.participant_id(...
         strcmp(strtrim(participants.name_initials),subjects{s}));
-    func_dir = fullfile('..\data\pp_data',...
+    func_dir = fullfile('..','data','pp_data',...
         strtrim(subject_id{1}),'func'); 
+
+    if ~exist(func_dir) 
+        mkdir(func_dir);
+    end
 
 
     fid = fopen( fullfile(func_dir,'exclusion.txt'), 'wt' );
