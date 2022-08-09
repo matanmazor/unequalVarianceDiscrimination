@@ -3,6 +3,7 @@ experiment/data/*
 *.asv
 analyzed/*
 data/pp_data/*
+data/data/*
 data/raw_data/*
 data/openNeuro/*
 docs/submissions/*
