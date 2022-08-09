@@ -1,8 +1,7 @@
 function [] = compareOnOffDiagonal(project_params,which_subjects,metric)
 
-addpath('D:\Documents\software\cbrewer') %for color
-[cb] = cbrewer('qual','Set1',10,'pchip');
-base_dir = fullfile('..','analyzed','DM2_unsmoothed','group','rsa',metric);
+load('cb.mat')
+base_dir = fullfile('..','analyzed','RSA', metric);
 Models = modelRDMs();
 
 ROIs = {'FPl','FPm','BA46','vmPFC','rTPJ','rSTS','preSMA'};

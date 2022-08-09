@@ -1,8 +1,7 @@
 function [] = multipleRegressionRDMs(project_params,which_subjects,metric)
 
-addpath('D:\Documents\software\cbrewer') %for color
-[cb] = cbrewer('qual','Set1',10,'pchip');
-base_dir = fullfile('..','analyzed','DM2_unsmoothed','group','rsa',metric);
+load('cb.mat')
+base_dir = fullfile('..','analyzed','RSA',metric);
 
 % create our predictors design matrix
 DM = modelRDMsForMultipleRegression();
@@ -81,11 +80,12 @@ bar(xpositions(2:2:end),all_combination_means(2:2:end),0.25,'faceColor',cb(4,:))
 errorbar(xpositions,all_combination_means,all_combination_errors,all_combination_errors,'lineStyle','none','color','black');
 set(gca,'xtick',0.15+(1:3),'xticklabel',ROIs);
 ylabel('beta combination')
- s=hgexport('readstyle','presentation');
-s.Format = 'png';
-s.Width = 12;
-s.Height = 6;
-hgexport(fig,fullfile('figures',['all_combinations_',metric]),s);
+%  s=hgexport('readstyle','presentation');
+% s.Format = 'png';
+% s.Width = 12;
+% s.Height = 6;
+% hgexport(fig,fullfile('figures',['all_combinations_',metric]),s);
+exportgraphics(gcp,fullfile('figures',['all_combinations_',metric]),'Resolution',300)
 
 
 

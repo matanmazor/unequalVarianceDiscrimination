@@ -1,11 +1,10 @@
-function [ax1,ax2,ax3, coefs,R2_mat] = printConfByResp(project_params, subjects, ROI_label, ROI_name)
+function [ax1,ax2,ax3, coefs,R2_mat] = printConfByRespFromROI(project_params, subjects, ROI_label, ROI_name)
 
 p=project_params;
 load(fullfile(p.raw_dir,'subject_details.mat'));
 
 %add nice things to path
 addpath('C:\Users\tanzor\Documents\software\cbrewer') %for color
-% addpath('D:\Documents\software\sigstar') %for significance
 [cb] = cbrewer('qual','Set1',10,'pchip');
 cb_dis = cbrewer('div','PRGn',18,'pchip');
 cb_det = cbrewer('div','RdBu',18,'pchip');
@@ -62,7 +61,7 @@ i=1;
 % end
 
 %% get betas
-ROI_betas = load(fullfile(p.stats_dir,'DM10555','group',ROI_label));
+ROI_betas = load(fullfile('..','data','ROI_data','categorical',ROI_label));
 
 %% get standard errors
 
@@ -154,11 +153,12 @@ set(gca,'ytick',[]);
 linkaxes([ax1,ax2],'y')
 set(gca,'YColor','none')
 
-s=hgexport('readstyle','presentation');
-s.Format = 'png'; 
-s.Width = 22;
-s.Height = 12;
-hgexport(gcf,['figures/',ROI_label,'activation_per_conf'],s);
+% s=hgexport('readstyle','presentation');
+% s.Format = 'png'; 
+% s.Width = 22;
+% s.Height = 12;
+% hgexport(gcf,['figures/',ROI_label,'activation_per_conf'],s);
+saveas(gcf,['figures/',ROI_label,'activation_per_conf.png']);
 
 
 coefs = nan(35,3,6); %subjects, degrees, responses: YNACTV

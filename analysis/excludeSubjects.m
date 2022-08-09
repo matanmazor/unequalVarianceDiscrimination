@@ -9,6 +9,7 @@ remove(data_struct, '35MP03037')
 participants = readtable(fullfile('..','data','participants.csv'));
 subjects = participants.name_initials;
 
+%start with assuming that all runs are excluded.
 toExclude = ones(length(subjects),6);
 toExcludeFromConfAnalyses = ones(length(subjects),6);
 
@@ -31,17 +32,17 @@ for s = 1:length(subjects)
             good_ss(end+1) = participants.participant_id(...
             strcmp(strtrim(participants.name_initials),subjects{s}));
             which_subjects(end+1) = str2num(subjects{s}(1:2));
-        end
 
-        for run_num = 1:length(subject.DisRT)/26
-
-            if any([subject.DisInclude((run_num-1)*26+2),...
-                    subject.DetInclude((run_num-1)*26+2),...
-                    subject.TiltInclude((run_num-1)*26+2)])
-                toExcludeFromConfAnalyses(s,run_num)=0;
-                toExclude(s,run_num)=0;
+            for run_num = 1:length(subject.DisRT)/26
+    
+                if any([subject.DisInclude((run_num-1)*26+2),...
+                        subject.DetInclude((run_num-1)*26+2),...
+                        subject.TiltInclude((run_num-1)*26+2)])
+                    toExcludeFromConfAnalyses(s,run_num)=0;
+                    toExclude(s,run_num)=0;
+                end
+    
             end
-
         end
 
 

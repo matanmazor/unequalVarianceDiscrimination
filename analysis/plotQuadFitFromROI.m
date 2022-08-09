@@ -1,9 +1,10 @@
-function  [ax1,ax2, ax3, coefs, R2_mat] = plotQuadFit(project_params, subjects, ROI_label, ROI_name, single_trials)
+function  [ax1,ax2, ax3, coefs, R2_mat] = plotQuadFitFromROI(project_params, subjects, ROI_label, ROI_name, single_trials)
 
 if nargin==4
     single_trials=0;
 end
 
+load('cb.mat');
 
 if single_trials
     [ax1_ROI,ax2_ROI, ax3_ROI, coefs] = printConfByRespSingleTrialModel(project_params, subjects, ROI_label, ROI_name);
@@ -84,15 +85,15 @@ xticks([il+1.5,il+3.5+ipg, ...
 xticklabels({'lin.','quad.', 'lin.','quad.', 'lin.','quad.', 'lin.','quad.'});
 ylabel('coefficient');
 xlim([-1,il+14+3*ipg+2*itg]);
-s=hgexport('readstyle','presentation');
-s.Format = 'png'; 
-s.Width = 20;
-s.Height = 12;
+% s=hgexport('readstyle','presentation');
+% s.Format = 'png'; 
+% s.Width = 20;
+% s.Height = 12;
 
 if single_trials
-    hgexport(gcf,['figures/',ROI_label,'single_trials_coefficients'],s);
+    saveas(gcf,['figures/',ROI_label,'single_trials_coefficients.png']);
 else
-    hgexport(gcf,['figures/',ROI_label,'coefficients'],s);
+    saveas(gcf,['figures/',ROI_label,'coefficients.png']);
 end
 
 end

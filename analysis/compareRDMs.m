@@ -1,8 +1,7 @@
 function [] = compareRDMs(project_params,which_subjects,metric)
 
-addpath('D:\Documents\software\cbrewer') %for color
-[cb] = cbrewer('qual','Set1',10,'pchip');
-base_dir = fullfile('..','analyzed','DM2_unsmoothed','group','rsa',metric);
+load('cb.mat')
+base_dir = fullfile('..','analyzed','RSA', metric);
 Models = modelRDMs();
 
 ROIs = {'FPl','FPm','BA46','vmPFC','rTPJ','rSTS','preSMA'};
@@ -118,12 +117,13 @@ for i_ROI = 1:7
     set(gca,'xtick',1:8,'xticklabel',{'A','B','C','D',...
         'E','F','G','H'})
     fig = gcf;
-    s=hgexport('readstyle','presentation');
-    s.Format = 'png';
-    s.Width = 20;
-    s.Height = 8;
-    hgexport(fig,fullfile('figures',[ROI,'_','correlations_',metric]),s);
-    
+%     s=hgexport('readstyle','presentation');
+%     s.Format = 'png';
+%     s.Width = 20;
+%     s.Height = 8;
+%     hgexport(fig,fullfile('figures',[ROI,'_','correlations_',metric]),s);
+    saveas(fig,fullfile('figures',[ROI,'_','correlations_',metric,'.png']));
+
 %     fig=figure;
 %     conditions = {'C_H','C_L','A_H','A_L',...
 %     'Y_H','Y_L','N_H','N_L',...

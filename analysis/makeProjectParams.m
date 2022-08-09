@@ -9,7 +9,7 @@ project_params.spm_dir = fullfile('D:','Documents','software','spm12');
 project_params.raw_dir = fullfile(fileparts(pwd),'data','raw_data'); 
 
 % Location of preprocessed data
-project_params.pp_dir = fullfile(fileparts(pwd),'data','pp_data'); 
+project_params.data_dir = fullfile(fileparts(pwd),'data','pp_data'); 
 
 % name of subdirectories
 project_params.dir_epi = 'func';

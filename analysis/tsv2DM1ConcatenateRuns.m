@@ -1,5 +1,7 @@
 excludeSubjects;
 load('project_params.mat')
+
+%usable runs get 1, unusable runs get 0
 which_blocks = toExclude+toExcludeFromConfAnalyses==0;
 unprocessed_dir = fullfile(fileparts(project_params.raw_dir), 'data');
 load(fullfile(project_params.raw_dir,'subject_details.mat'));
@@ -179,7 +181,7 @@ for i_s = which_subjects
         durations(empty_conditions)=[];
         pmod(empty_conditions) = [];
         
-        dirname = fullfile(project_params.data_dir, subj{i_s}.scanid, 'DM');
+        dirname = fullfile(project_params.data_dir, ['sub-',subj{i_s}.scanid], 'DM');
         filename =  fullfile(dirname, 'DM1_cr.mat');
         if ~exist(dirname, 'dir')
             mkdir(dirname)

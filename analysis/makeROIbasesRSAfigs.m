@@ -1,6 +1,5 @@
-addpath('D:\Documents\software\cbrewer') %for color
-[cb] = cbrewer('qual','Set1',10,'pchip');
-base_dir = fullfile('..','analyzed','DM2_unsmoothed','group','rsa','euclidean');
+load('cb.mat')
+base_dir = fullfile('..','analyzed','RSA', 'euclidean');
 
 % ROIs = {'FPl','FPm','BA46','vmPFC','rTPJ','rSTS','preSMA'};
 ROIs = {'BA46','vmPFC','rSTS'};
@@ -38,9 +37,11 @@ for i_RDM = 1:length(RDMs)
         h.CData(best_indices,:)=repmat([0.7,0.8,1],length(best_indices),1);
     end
     fig = gcf;
-    s=hgexport('readstyle','presentation');
-    s.Format = 'png';
-    s.Width = 8;
-    s.Height = 8;
-    hgexport(fig,fullfile('figures',[RDMs{i_RDM},'_','correlations_euclidean']),s);
+%     s=hgexport('readstyle','presentation');
+%     s.Format = 'png';
+%     s.Width = 8;
+%     s.Height = 8;
+%     hgexport(fig,fullfile('figures',[RDMs{i_RDM},'_','correlations_euclidean']),s);
+    saveas(fig,fullfile('figures',[RDMs{i_RDM},'_','correlations_euclidean.png']));
+
 end
