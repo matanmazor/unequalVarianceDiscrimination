@@ -4,7 +4,6 @@ experiment/data/*
 analyzed/*
 data/pp_data/*
 data/data/*
-data/raw_data/*
 data/openNeuro/*
 docs/submissions/*
 analysis/figures/*
