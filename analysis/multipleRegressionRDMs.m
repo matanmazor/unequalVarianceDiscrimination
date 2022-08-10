@@ -85,7 +85,7 @@ ylabel('beta combination')
 % s.Width = 12;
 % s.Height = 6;
 % hgexport(fig,fullfile('figures',['all_combinations_',metric]),s);
-exportgraphics(gcp,fullfile('figures',['all_combinations_',metric]),'Resolution',300)
+saveas(gca,fullfile('figures',['all_combinations_',metric,'.png']))
 
 
 

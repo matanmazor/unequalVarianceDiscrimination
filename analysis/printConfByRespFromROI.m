@@ -3,18 +3,7 @@ function [ax1,ax2,ax3, coefs,R2_mat] = printConfByRespFromROI(project_params, su
 p=project_params;
 load(fullfile(p.raw_dir,'subject_details.mat'));
 
-%add nice things to path
-addpath('C:\Users\tanzor\Documents\software\cbrewer') %for color
-[cb] = cbrewer('qual','Set1',10,'pchip');
-cb_dis = cbrewer('div','PRGn',18,'pchip');
-cb_det = cbrewer('div','RdBu',18,'pchip');
-cb_til = cbrewer('div','BrBG',18,'pchip');
-cb_dis = cb_dis([2:7,12:17],:);
-cb_det = cb_det([2:7,12:17],:);
-cb_til = cb_til([2:7,12:17],:);
-
-mappingcb = cbrewer('div','BrBG',3);
-
+load('cb.mat')
 
 A_num_trials = 10*ones(35,6);
 C_num_trials = 10*ones(35,6);
