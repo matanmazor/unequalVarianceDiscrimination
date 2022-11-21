@@ -1,17 +1,12 @@
+%use the same regressor for both responses of each task
+
 excludeSubjects;
 load('project_params.mat')
 
-% analyze blocks that were not identified as excluded blocks
-which_blocks = toExclude==0;
-
+%usable runs get 1, unusable runs get 0
+which_blocks = toExclude+toExcludeFromConfAnalyses==0;
 unprocessed_dir = fullfile(fileparts(project_params.raw_dir), 'data');
 load(fullfile(project_params.raw_dir,'subject_details.mat'));
-
-N = size(toExclude,1);
-
-% For RSA analysis, but with tasks by order in run rather than true task.
-
-N = size(toExclude,1);
 
 for i_s = which_subjects
     
@@ -28,11 +23,12 @@ for i_s = which_subjects
         % N: stimulus absent
         % T: tilted
         % V: vertical
-        reg_names = {'A1','A2',...
-            'B1','B2',...
-            'C1','C2',...
+        reg_names = {'disc',...
+            'det',...
+            'tilt',...
             'ignore','index_finger_press',...
-            'middle_finger_press','thumb_press', 'instructions'};
+            'middle_finger_press','thumb_press', ...
+            'instructions'};
     
         % serial position of the first nuisance regressor
         first_nuis_idx = find(strcmp(reg_names,'ignore'));
@@ -45,10 +41,14 @@ for i_s = which_subjects
         end
         
         %regressors of interest also get confidence modulators
-        for i_r = 1:first_nuis_idx
-            pmod(i_r).name{1} = 'confidence';
+        for i_r = 1:3
+            pmod(i_r).name{1} = 'response';
             pmod(i_r).param{1} = [];
             pmod(i_r).poly{1} = 1;
+            
+            pmod(i_r).name{2} = 'confidence';
+            pmod(i_r).param{2} = [];
+            pmod(i_r).poly{2} = 2;
         end
 
         relevant_runs = find(which_blocks(i_s,:)>0);
@@ -69,7 +69,6 @@ for i_s = which_subjects
             runwise_offset = project_params.TR*179*(i_r-1);
             table.onset = table.onset+runwise_offset;
             
-            
             %% 3. loop over events
             for event = 1:length(table.onset)
                 
@@ -85,17 +84,14 @@ for i_s = which_subjects
                 elseif any(strcmp({'A','C','Y','N','T','V'},...
                         table.trial_type(event,2)))
                     
-                    task_number = mod(ceil(length(all_trial_onsets)/26),3);
-                    task_letters = {'C','A','B'};
-                    task_letter = task_letters{task_number+1};
-                    resp = table.trial_type(event,2);
-                    common_resp = ismember(resp, {'C','Y','T'})+1;
-                    trial_type = sprintf('%s%d',task_letter,common_resp);
-
-                    reg_idx = find(strcmp(reg_names,trial_type));
+                    resp_idx = find(strcmp({'A','C','Y','N','T','V'},table.trial_type(event,2)));
+                    reg_idx = ceil(resp_idx/2);
+                    resp = 2*(mod(resp_idx,2)-0.5);
+                    
                     onsets{reg_idx} = [onsets{reg_idx}; table.onset(event,:)];
                     durations{reg_idx} = [durations{reg_idx}; 4];
-                    pmod(reg_idx).param{1} = [pmod(reg_idx).param{1}; 
+                    pmod(reg_idx).param{1} = [pmod(reg_idx).param{1}; resp];
+                    pmod(reg_idx).param{2} = [pmod(reg_idx).param{2}; 
                         str2num(table.confidence(event,:))];
                 
                     all_trial_onsets(end+1)=table.onset(event,:);
@@ -132,14 +128,24 @@ for i_s = which_subjects
                     onsets{reg_idx} = [onsets{reg_idx}; table.onset(event,:)];
                     durations{reg_idx} = [durations{reg_idx}; 4];
                     all_trial_onsets(end+1)=table.onset(event,:);
-                    
-                 elseif strcmp(strtrim(table.trial_type(event,:)),'instructions')
+                
+                elseif strcmp(strtrim(table.trial_type(event,:)),'instructions')
                     reg_idx = find(strcmp(names,'instructions'));
                     onsets{reg_idx} = [onsets{reg_idx}; table.onset(event,:)];
                     durations{reg_idx} = [durations{reg_idx}; 5];
                 end
             end
             
+%             trial_onsets = table.onset(table.duration>0); %ignore key presses
+%             
+%             if length(trial_onsets)~=length(all_trial_onsets)/i_r
+%                 error('trial numbers do not match')
+%             end
+%             
+%             if length(onsets{first_nuis_idx})<3
+%                 error('not enough excluded trials for participant,there should be at least 3 per block')
+%             end
+
         end
         
         all_trials_from_DM = [];
@@ -159,50 +165,18 @@ for i_s = which_subjects
         end
         
         for i = 1:numel(pmod)
-            switch numel(unique(pmod(i).param{1}))
+            switch numel(unique(pmod(i).param{2}))
                 case 1
-                    pmod(i).name{1} = [];
-                    pmod(i).param{1} = [];
-                    pmod(i).poly{1} = [];
+                    pmod(i).name{2} = [];
+                    pmod(i).param{2} = [];
+                    pmod(i).poly{2} = [];
                 case 2
-                    pmod(i).poly{1} = 1;
+                    pmod(i).poly{2} = 1;
                 otherwise
-                    pmod(i).poly{1} = 2;
+                    pmod(i).poly{2} = 2;
             end
         end
-        
-        for i_r = 1:6
-            
-            median_conf = median(pmod(i_r).param{1});
-            
-            %what portion of trials has equal or above median conf?
-            p_geq = mean(pmod(i_r).param{1}>=median(pmod(i_r).param{1}));
-            
-            %what portion of trials has above median conf?
-            p_g = mean(pmod(i_r).param{1}>median(pmod(i_r).param{1}));
-            
-            if abs(p_g-0.5)<abs(p_geq-0.5)
-                
-                %add epsilot to median_conf so that >= becomes >
-                median_conf = median_conf+eps;
-                
-            end
 
-            names{end+1} = [names{i_r},'_H'];
-            onsets{end+1} = onsets{i_r}(pmod(i_r).param{1}>=median_conf);
-            durations{end+1} = durations{i_r}(pmod(i_r).param{1}>=median_conf);
-            
-            names{i_r} = [names{i_r},'_L'];
-            onsets{i_r} = onsets{i_r}(pmod(i_r).param{1}<median_conf);
-            durations{i_r} = durations{i_r}(pmod(i_r).param{1}<median_conf);
-            
-            pmod(i_r).param = [];
-            pmod(i_r).name = [];
-            pmod(i_r).poly = [];
-        
-        end
-
-        
         
         %%%%%%% REMOVE EMPTY ONSET FIELDS %%%%%%%%
         % note thas this step means that regressor numbers can differ between
@@ -216,10 +190,11 @@ for i_s = which_subjects
         durations(empty_conditions)=[];
         pmod(empty_conditions) = [];
         
-        subj{i_s}.scanid
-        
-        filename =  fullfile(project_params.data_dir, ['sub-',subj{i_s}.scanid], 'DM', ...
-            'DM3_cr.mat');
+        dirname = fullfile(project_params.data_dir, ['sub-',subj{i_s}.scanid], 'DM');
+        filename =  fullfile(dirname, 'DM5_cr.mat');
+        if ~exist(dirname, 'dir')
+            mkdir(dirname)
+        end
         save(filename, 'names','onsets','pmod','durations');
     end
 end
